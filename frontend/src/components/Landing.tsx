@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import "./App.css"
 
-const MyComponent = () => {
+export const Landing = () => {
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
@@ -26,10 +25,9 @@ const MyComponent = () => {
 
   return (
     <div>
-      <h1>Message from backend:</h1>
+      <h2>Message from backend:</h2>
       <p>{message ? JSON.stringify(message) : "Loading..."}</p>
     </div>
   );
 };
 
-export default MyComponent;
