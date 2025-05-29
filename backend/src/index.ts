@@ -1,15 +1,17 @@
-import express, { Response } from "express"
-import cors from "cors"
+import express from "express"
+import {createServer} from "http"
+import { Server, Socket } from "../node_modules/socket.io/dist/index"
 
 const app = express()
-app.use(cors({
-    origin: "http://localhost:5173"
-}))
+const httpServer = createServer(app)
+const io = new Server(httpServer)
 
-app.get("/", (_, res:Response) => {
-    res.status(200).send({
-        message: "Welcome to the website!!"
-    })    
+io.on("connection", (socket:Socket) => {
+    socket.on("error", (err) => console.log(err))
+
+    socket.on("event:message", (msg : {message: string}) => {
+        console.log(`${socket.id} sent a message: ${msg}`)
+    })
 })
 
-app.listen(5000, () => console.log("Server running"))
+httpServer.listen(5001, () => console.log("Server running on port: 5001"))
